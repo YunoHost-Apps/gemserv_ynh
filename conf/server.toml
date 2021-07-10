@@ -1,0 +1,8 @@
+port = 1965
+# use "::" for ipv6 and ipv4 or "0.0.0.0" for ipv4 only
+host = "::"
+# log is optional and server wide. It defaults to info if not set. Other levels
+# are error, warn, and info. If error is set it will only show error. If warn
+# is set it will show error and warn. Info shows all three.
+log = "info"
+

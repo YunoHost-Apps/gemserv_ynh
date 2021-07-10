@@ -1,5 +1,5 @@
-SOURCE_URL=url of app's source
-SOURCE_SUM=sha256 checksum
+SOURCE_URL=https://codeberg.org/Valenoern/gemserv/archive/v0.4.4.tar.gz
+SOURCE_SUM=810f56dfcbd1d8761afac4a5f3fbf64ec352aa78628ade1eb5e41285c58acf2a
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true
