@@ -88,14 +88,14 @@ systemctl enable $app.service --quiet
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="A short description of the app" --log="/var/log/$app/$app.log"
+yunohost service add $app --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --line_match="Started" --log_path="systemd"
 
 #=================================================
 # RESTORE THE LOGROTATE CONFIGURATION
