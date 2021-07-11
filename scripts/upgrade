@@ -46,7 +46,7 @@ ynh_abort_if_errors
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="stop" --line_match="Stopped" --log_path="systemd"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -61,6 +61,8 @@ ynh_script_progression --message="Making sure dedicated system user exists..."
 # Create a dedicated user (if not existing)
 ynh_system_user_create --username=$app --home_dir="$final_path"
 
+usermod -a -G ssl-cert $app
+
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -70,7 +72,9 @@ then
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$final_path/build"
+	ynh_secure_remove --file="$final_path/live"
+	mkdir -p "$final_path/live"
 fi
 
 chmod 750 "$final_path"
@@ -87,18 +91,45 @@ ynh_install_app_dependencies $pkg_dependencies
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# ...
+# MAKE INSTALL
 #=================================================
+ynh_script_progression --message="Making install..."
+
+# Install rustup with the toolchain needed by vaultwarden
+pushd "$final_path"
+	sudo -u "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
+popd
+
+export PATH="$PATH:$final_path/.cargo/bin:$final_path/.local/bin:/usr/local/sbin" 
+
+# Compile Gemserv
+pushd "$final_path"/build
+	ynh_exec_warn_less sudo -u "$app" env PATH="$PATH" cargo build --release
+popd
+
+# Install vaultwarden
+cp -af "$final_path/build/target/release/gemserv" "$final_path/live/gemserv"
+
+# Remove build files and rustup
+ynh_secure_remove --file="$final_path/build"
+ynh_secure_remove --file="$final_path/.cargo"
+ynh_secure_remove --file="$final_path/.rustup"
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
 ynh_script_progression --message="Updating a configuration file..."
 
-ynh_add_config --template="some_config_file" --destination="$final_path/some_config_file"
+mkdir -p "/etc/$app/config.d/"
 
-chmod 400 "$final_path/some_config_file"
-chown $app:$app "$final_path/some_config_file"
+chmod 750 "/etc/$app"
+chmod -R o-rwx "/etc/$app"
+chown -R $app:$app "/etc/$app"
+
+ynh_add_config --template="../conf/server.toml" --destination="/etc/$app/config.d/server.toml"
+
+chmod 400 "/etc/$app/config.d/server.toml"
+chown $app:$app "/etc/$app/config.d/server.toml"
 
 #=================================================
 # SETUP SYSTEMD
@@ -123,14 +154,14 @@ ynh_use_logrotate --non-append
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="A short description of the app" --log="/var/log/$app/$app.log"
+yunohost service add $app --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start" --line_match="Started" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
