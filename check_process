@@ -14,6 +14,8 @@
 		setup_private=0
 		setup_public=0
 		upgrade=1
+		# 0.4.4~ynh1
+		upgrade=1	from_commit=3fcde5a7829938763b393ac1e878929bdc35297f
 		backup_restore=1
 		multi_instance=0
 		port_already_use=0
@@ -22,5 +24,5 @@
 Email=yalh@yahoo.com
 Notification=all
 ;;; Upgrade options
-	; commit=CommitHash
-		name=Name and date of the commit.
+	; commit=3fcde5a7829938763b393ac1e878929bdc35297f
+		name=0.4.4~ynh1.

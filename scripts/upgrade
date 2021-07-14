@@ -95,25 +95,28 @@ ynh_install_app_dependencies $pkg_dependencies
 #=================================================
 ynh_script_progression --message="Making install..."
 
-# Install rustup with the toolchain needed by vaultwarden
-pushd "$final_path"
-	sudo -u "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
-popd
+if [ "$upgrade_type" == "UPGRADE_APP" ]
+then
+	# Install rustup with the toolchain needed by Gemserv
+	pushd "$final_path"
+		sudo -u "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
+	popd
 
-export PATH="$PATH:$final_path/.cargo/bin:$final_path/.local/bin:/usr/local/sbin" 
+	export PATH="$PATH:$final_path/.cargo/bin:$final_path/.local/bin:/usr/local/sbin" 
 
-# Compile Gemserv
-pushd "$final_path"/build
-	ynh_exec_warn_less sudo -u "$app" env PATH="$PATH" cargo build --release
-popd
+	# Compile Gemserv
+	pushd "$final_path"/build
+		ynh_exec_warn_less sudo -u "$app" env PATH="$PATH" cargo build --release
+	popd
 
-# Install vaultwarden
-cp -af "$final_path/build/target/release/gemserv" "$final_path/live/gemserv"
+	# Install Gemserv
+	cp -af "$final_path/build/target/release/gemserv" "$final_path/live/gemserv"
 
-# Remove build files and rustup
-ynh_secure_remove --file="$final_path/build"
-ynh_secure_remove --file="$final_path/.cargo"
-ynh_secure_remove --file="$final_path/.rustup"
+	# Remove build files and rustup
+	ynh_secure_remove --file="$final_path/build"
+	ynh_secure_remove --file="$final_path/.cargo"
+	ynh_secure_remove --file="$final_path/.rustup"
+fi
 
 #=================================================
 # UPDATE A CONFIG FILE

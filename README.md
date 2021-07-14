@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 A gemini server written in rust.
 
-**Shipped version:** 0.4.4~ynh1
+**Shipped version:** 0.4.5~ynh1
 
 
 
@@ -60,7 +60,7 @@ redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 ```
 ## Documentation and resources
 
-* Upstream app code repository: https://codeberg.org/Valenoern/gemserv
+* Upstream app code repository: https://git.sr.ht/~int80h/gemserv
 * YunoHost documentation for this app: https://yunohost.org/app_gemserv
 * Report a bug: https://github.com/YunoHost-Apps/gemserv_ynh/issues
 
