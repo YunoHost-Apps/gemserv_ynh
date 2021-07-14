@@ -87,7 +87,7 @@ chown -R $app:$app "$final_path"
 #=================================================
 ynh_script_progression --message="Making install..."
 
-# Install rustup with the toolchain needed by vaultwarden
+# Install rustup with the toolchain needed by Gemserv
 pushd "$final_path"
 	ynh_exec_warn_less sudo -u "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
 popd
@@ -99,7 +99,7 @@ pushd "$final_path"/build
 	ynh_exec_warn_less sudo -u "$app" env PATH="$PATH" cargo build --release
 popd
 
-# Install vaultwarden
+# Install Gemserv
 cp -af "$final_path/build/target/release/gemserv" "$final_path/live/gemserv"
 
 # Remove build files and rustup
