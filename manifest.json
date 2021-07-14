@@ -5,11 +5,11 @@
     "description": {
         "en": "A gemini server written in rust."
     },
-    "version": "0.4.4~ynh2",
-    "url": "https://codeberg.org/Valenoern/gemserv",
+    "version": "0.4.5~ynh1",
+    "url": "https://git.sr.ht/~int80h/gemserv/",
     "upstream": {
         "license": "MIT",
-        "code": "https://codeberg.org/Valenoern/gemserv"
+        "code": "https://git.sr.ht/~int80h/gemserv"
     },
     "license": "MIT",
     "maintainer": {
