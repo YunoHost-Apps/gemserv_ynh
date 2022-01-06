@@ -8,8 +8,6 @@ It shall NOT be edited by hand.
 [![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)  
 [![Install Gemserv with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
-*[Lire ce readme en français.](./README_fr.md)*
-
 > *This package allows you to install Gemserv quickly and simply on a YunoHost server.
 If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/install) to learn how to install it.*
 

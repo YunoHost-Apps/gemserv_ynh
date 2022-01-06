@@ -13,7 +13,7 @@
     },
     "license": "MIT",
     "maintainer": {
-        "name": "yalh76" 
+        "name": "yalh76"
     },
     "requirements": {
         "yunohost": ">= 4.1.3"
