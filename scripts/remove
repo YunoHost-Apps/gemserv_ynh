@@ -41,12 +41,12 @@ ynh_script_progression --message="Stopping and removing the systemd service..."
 ynh_remove_systemd_config
 
 #=================================================
-# REMOVE DEPENDENCIES
+# REMOVE LOGROTATE CONFIGURATION
 #=================================================
-ynh_script_progression --message="Removing dependencies..."
+ynh_script_progression --message="Removing logrotate configuration..."
 
-# Remove metapackage and its dependencies
-ynh_remove_app_dependencies
+# Remove the app-specific logrotate config
+ynh_remove_logrotate
 
 #=================================================
 # REMOVE APP MAIN DIR
@@ -57,12 +57,12 @@ ynh_script_progression --message="Removing app main directory..."
 ynh_secure_remove --file="$final_path"
 
 #=================================================
-# REMOVE LOGROTATE CONFIGURATION
+# REMOVE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Removing logrotate configuration..."
+ynh_script_progression --message="Removing dependencies..."
 
-# Remove the app-specific logrotate config
-ynh_remove_logrotate
+# Remove metapackage and its dependencies
+ynh_remove_app_dependencies
 
 #=================================================
 # CLOSE A PORT

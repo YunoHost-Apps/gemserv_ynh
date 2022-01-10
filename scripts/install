@@ -61,7 +61,7 @@ ynh_install_app_dependencies $pkg_dependencies
 ynh_script_progression --message="Configuring system user..."
 
 # Create a system user
-ynh_system_user_create --username=$app --home_dir="$final_path"
+ynh_system_user_create --username=$app --home_dir=$final_path
 
 usermod -a -G ssl-cert $app
 
@@ -89,14 +89,14 @@ ynh_script_progression --message="Making install..."
 
 # Install rustup with the toolchain needed by Gemserv
 pushd "$final_path"
-	sudo -u "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
+	ynh_exec_as "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
 popd
 
 export PATH="$PATH:$final_path/.cargo/bin:$final_path/.local/bin:/usr/local/sbin" 
 
 # Compile Gemserv
 pushd "$final_path"/build
-	ynh_exec_warn_less sudo -u "$app" env PATH="$PATH" cargo build --release
+	ynh_exec_warn_less ynh_exec_as "$app" env PATH="$PATH" cargo build --release
 popd
 
 # Install Gemserv
