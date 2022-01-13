@@ -5,7 +5,7 @@
     "description": {
         "en": "A gemini server written in rust."
     },
-    "version": "0.4.5~ynh1",
+    "version": "0.6.3~ynh1",
     "url": "https://git.sr.ht/~int80h/gemserv/",
     "upstream": {
         "license": "MIT",
@@ -13,10 +13,10 @@
     },
     "license": "MIT",
     "maintainer": {
-        "name": "yalh76" 
+        "name": "yalh76"
     },
     "requirements": {
-        "yunohost": ">= 4.1.3"
+        "yunohost": ">= 4.3.0"
     },
     "multi_instance": false,
     "services": [

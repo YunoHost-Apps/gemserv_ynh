@@ -1,5 +1,5 @@
-SOURCE_URL=https://git.sr.ht/~int80h/gemserv/archive/v0.4.5.tar.gz
-SOURCE_SUM=7aeb5edc8af6ebefc2331aebc0c360798711c2fb16ee9cbde8c5c4f9502c491f
+SOURCE_URL=https://git.sr.ht/~int80h/gemserv/archive/v0.6.3.tar.gz
+SOURCE_SUM=e84656f1a3274d2becdecd731afe767477ead7f2c265c0d7ae8ee9e8bc81ded8
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=tar.gz
 SOURCE_IN_SUBDIR=true

@@ -17,7 +17,8 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 A gemini server written in rust.
 
-**Shipped version:** 0.4.5~ynh1
+
+**Shipped version:** 0.6.3~ynh1
 
 
 
