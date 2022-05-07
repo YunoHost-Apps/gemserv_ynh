@@ -14,7 +14,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 A gemini server written in rust.
 
 
-**Version incluse :** 0.6.5~ynh2
+**Version incluse :** 0.6.6~ynh1
 
 
 
