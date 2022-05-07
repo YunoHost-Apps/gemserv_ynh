@@ -46,7 +46,7 @@ ynh_abort_if_errors
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="stop" --line_match="Stopped" --log_path="systemd"
+ynh_systemd_action --service_name="$app" --action="stop" --line_match="Stopped" --log_path="systemd"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -59,9 +59,9 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 ynh_script_progression --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir=$final_path
+ynh_system_user_create --username="$app" --home_dir="$final_path"
 
-usermod -a -G ssl-cert $app
+usermod -a -G ssl-cert "$app"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -79,14 +79,14 @@ fi
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R $app:$app "$final_path"
+chown -R "$app":"$app" "$final_path"
 
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."
 
-ynh_install_app_dependencies $pkg_dependencies
+ynh_install_app_dependencies "$pkg_dependencies"
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -127,12 +127,12 @@ mkdir -p "/etc/$app/config.d/"
 
 chmod 750 "/etc/$app"
 chmod -R o-rwx "/etc/$app"
-chown -R $app:$app "/etc/$app"
+chown -R "$app":"$app" "/etc/$app"
 
 ynh_add_config --template="../conf/server.toml" --destination="/etc/$app/config.d/server.toml"
 
 chmod 400 "/etc/$app/config.d/server.toml"
-chown $app:$app "/etc/$app/config.d/server.toml"
+chown "$app":"$app" "/etc/$app/config.d/server.toml"
 
 #=================================================
 # SETUP SYSTEMD
@@ -157,14 +157,14 @@ ynh_use_logrotate --non-append
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
+yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --line_match="Started" --log_path="systemd"
+ynh_systemd_action --service_name="$app" --action="start" --line_match="Started" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
