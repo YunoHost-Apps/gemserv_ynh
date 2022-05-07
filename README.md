@@ -58,14 +58,14 @@ cgipath = "/path/to/cgi-bin/"
 scgi = { "/scgi" = "localhost:4000" }
 # cgienv is optional
 cgienv = { "GIT_PROJECT_ROOT" = "/srv/git" }
-# usrdir is optional. it'll look in /home/usr/public_gemini
+# usrdir is optional. it'll look in each user's ~/public_gemini
 usrdir = true
 # proxy is optional
 # path is what comes after the hostname e.g. example.com/path
 proxy = { path = "localhost:1966" }
 # proxy_all is optional
 # It will send all requests to the specified server. It also supports streamming.
-proxy_all = localhost:1967
+proxy_all = "localhost:1967"
 # redirect is optional
 redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 ```
