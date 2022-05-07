@@ -1,13 +1,13 @@
-* Other infos that people should be aware of, such as:
-    * Redirect TCP/1965 port to the server
-    * To add a gemini capsule, create a /etc/gemserv/config.d/example.toml 
+Please note that Gemserv uses the TCP port 1965, so you can't use it for anything else.
 
-```
+To add a gemini capsule, create a `/etc/gemserv/config.d/example.toml` file as following:
+
+``` toml
 [[server]]
-hostname = "youdomain.org"
-dir = "/path/to/serv/"
-key = "/etc/yunohost/certs/youdomain.org/key.pem"
-cert = "/etc/yunohost/certs/youdomain.org/crt.pem"
+hostname = "yourdomain.org"
+dir = "/path/to/serv"
+key = "/etc/yunohost/certs/yourdomain.org/key.pem"
+cert = "/etc/yunohost/certs/yourdomain.org/crt.pem"
 # index is optional but defaults to index.gemini. The server will serve files
 # ending in gemini or gmi.
 index = "index.gmi"
