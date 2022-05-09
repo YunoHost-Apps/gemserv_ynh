@@ -56,7 +56,8 @@ ynh_script_progression --message="Ensuring downward compatibility..."
 # Upgrade from <=0.6.6~ynh1:
 if ynh_compare_current_package_version --comparison le --version 0.6.6~ynh1
 then
-	rm /etc/"$app"/config.d/server.toml
+	ynh_delete_file_checksum --file=/etc/"$app"/config.d/server.toml
+	ynh_secure_remove --file=/etc/"$app"/config.d/server.toml
 fi
 
 #=================================================
