@@ -53,11 +53,12 @@ ynh_systemd_action --service_name="$app" --action="stop" --line_match="Stopped" 
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..."
 
-# Upgrade from <=0.6.6~ynh1:
-if ynh_compare_current_package_version --comparison le --version 0.6.6~ynh1
+# Change to head file
+if [ -f "/etc/$app/config.d/server.toml" ]
 then
-	ynh_delete_file_checksum --file=/etc/"$app"/config.d/server.toml
-	ynh_secure_remove --file=/etc/"$app"/config.d/server.toml
+	ynh_delete_file_checksum --file="/etc/$app/config.d/server.toml"
+	mv "/etc/$app/config.d/server.toml" "/etc/$app/config.d/server.toml.head"
+	ynh_store_file_checksum --file="/etc/$app/config.d/server.toml.head"
 fi
 
 #=================================================
