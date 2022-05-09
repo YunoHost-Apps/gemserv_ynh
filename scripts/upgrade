@@ -129,10 +129,10 @@ chmod 750 "/etc/$app"
 chmod -R o-rwx "/etc/$app"
 chown -R "$app":"$app" "/etc/$app"
 
-ynh_add_config --template="../conf/server.toml" --destination="/etc/$app/config.d/server.toml"
+ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
-chmod 400 "/etc/$app/config.d/server.toml"
-chown "$app":"$app" "/etc/$app/config.d/server.toml"
+chmod 400 "/etc/$app/config.d/server.toml.head"
+chown "$app":"$app" "/etc/$app/config.d/server.toml.head"
 
 #=================================================
 # SETUP SYSTEMD
