@@ -1,6 +1,12 @@
-port = 1965
-# use "::" for ipv6 and ipv4 or "0.0.0.0" for ipv4 only
-host = "::"
+# interface accepts multiple interface/port combinations. However, due to the
+# dual stack nature of linux if you specify "[::]:1965" linux will also listen
+# on "0.0.0.0:1965" so if you manually specify both it will fail.
+# interface = [ "0.0.0.0:1965, "[::]:1965" ]
+interface = [ "[::]:1965" ]
+# port and host have been deprecated in favor of interface but will still work
+# for now.
+# port = 1965
+# host = "::"
 # log is optional and server wide. It defaults to info if not set. Other levels
 # are error, warn, and info. If error is set it will only show error. If warn
 # is set it will show error and warn. Info shows all three.

@@ -27,14 +27,14 @@ ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
+final_path=$(ynh_app_setting_get --app="$app" --key=final_path)
 
 #=================================================
 # CHECK IF THE APP CAN BE RESTORED
 #=================================================
 ynh_script_progression --message="Validating restoration parameters..."
 
-test ! -d $final_path \
+test ! -d "$final_path" \
 	|| ynh_die --message="There is already a directory: $final_path "
 
 #=================================================
@@ -45,7 +45,7 @@ test ! -d $final_path \
 ynh_script_progression --message="Recreating the dedicated system user..."
 
 # Create the dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir=$final_path
+ynh_system_user_create --username="$app" --home_dir="$final_path"
 
 #=================================================
 # RESTORE THE APP MAIN DIR
@@ -56,7 +56,7 @@ ynh_restore_file --origin_path="$final_path"
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R $app:$app "$final_path"
+chown -R "$app":"$app" "$final_path"
 
 #=================================================
 # SPECIFIC RESTORATION
@@ -66,7 +66,7 @@ chown -R $app:$app "$final_path"
 ynh_script_progression --message="Reinstalling dependencies..."
 
 # Define and install dependencies
-ynh_install_app_dependencies $pkg_dependencies
+ynh_install_app_dependencies "$pkg_dependencies"
 
 #=================================================
 # RESTORE VARIOUS FILES
@@ -81,7 +81,7 @@ ynh_restore_file --origin_path="/etc/$app/"
 ynh_script_progression --message="Restoring the systemd configuration..."
 
 ynh_restore_file --origin_path="/etc/systemd/system/$app.service"
-systemctl enable $app.service --quiet
+systemctl enable "$app".service --quiet
 
 #=================================================
 # RESTORE THE LOGROTATE CONFIGURATION
@@ -95,14 +95,14 @@ ynh_restore_file --origin_path="/etc/logrotate.d/$app"
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add $app --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
+yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --line_match="Started" --log_path="systemd"
+ynh_systemd_action --service_name="$app" --action="start" --line_match="Started" --log_path="systemd"
 
 #=================================================
 # GENERIC FINALIZATION
