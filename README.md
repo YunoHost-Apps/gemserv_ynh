@@ -28,7 +28,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Shipped version:** 0.6.6~ynh1
+**Shipped version:** 0.6.6~ynh2
 
 
 
