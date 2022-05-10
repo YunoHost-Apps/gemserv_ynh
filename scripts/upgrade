@@ -53,6 +53,14 @@ ynh_systemd_action --service_name="$app" --action="stop" --line_match="Stopped" 
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..."
 
+# Change to head file
+if [ -f "/etc/$app/config.d/server.toml" ]
+then
+	ynh_delete_file_checksum --file="/etc/$app/config.d/server.toml"
+	mv "/etc/$app/config.d/server.toml" "/etc/$app/config.d/server.toml.head"
+	ynh_store_file_checksum --file="/etc/$app/config.d/server.toml.head"
+fi
+
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
@@ -129,10 +137,10 @@ chmod 750 "/etc/$app"
 chmod -R o-rwx "/etc/$app"
 chown -R "$app":"$app" "/etc/$app"
 
-ynh_add_config --template="../conf/server.toml" --destination="/etc/$app/config.d/server.toml"
+ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
-chmod 400 "/etc/$app/config.d/server.toml"
-chown "$app":"$app" "/etc/$app/config.d/server.toml"
+chmod 400 "/etc/$app/config.d/server.toml.head"
+chown "$app":"$app" "/etc/$app/config.d/server.toml.head"
 
 #=================================================
 # SETUP SYSTEMD
