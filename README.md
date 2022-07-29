@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Gemserv for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Working status](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)  
 [![Install Gemserv with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -29,9 +29,6 @@ A gemini server written in rust.
 
 
 **Shipped version:** 0.6.6~ynh2
-
-
-
 ## Disclaimers / important information
 
 Please note that Gemserv uses the TCP port 1965, so you can't use it for anything else.
@@ -72,19 +69,20 @@ redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 
 ## Documentation and resources
 
-* Upstream app code repository: https://git.sr.ht/~int80h/gemserv
-* YunoHost documentation for this app: https://yunohost.org/app_gemserv
-* Report a bug: https://github.com/YunoHost-Apps/gemserv_ynh/issues
+* Upstream app code repository: <https://git.sr.ht/~int80h/gemserv>
+* YunoHost documentation for this app: <https://yunohost.org/app_gemserv>
+* Report a bug: <https://github.com/YunoHost-Apps/gemserv_ynh/issues>
 
 ## Developer info
 
 Please send your pull request to the [testing branch](https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
-```
+
+``` bash
 sudo yunohost app install https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing --debug
 or
 sudo yunohost app upgrade gemserv -u https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing --debug
 ```
 
-**More info regarding app packaging:** https://yunohost.org/packaging_apps
+**More info regarding app packaging:** <https://yunohost.org/packaging_apps>
