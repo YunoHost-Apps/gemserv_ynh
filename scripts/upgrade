@@ -16,7 +16,7 @@ ynh_script_progression --message="Loading installation settings..."
 
 app=$YNH_APP_INSTANCE_NAME
 
-final_path=$(ynh_app_setting_get --app="$app" --key=final_path)
+final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 
 #=================================================
 # CHECK VERSION
@@ -33,6 +33,7 @@ ynh_script_progression --message="Backing up the app before upgrading (may take 
 # Backup the current version of the app
 ynh_backup_before_upgrade
 ynh_clean_setup () {
+	ynh_clean_check_starting
 	# Restore it if the upgrade fails
 	ynh_restore_upgradebackup
 }
@@ -46,7 +47,7 @@ ynh_abort_if_errors
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..."
 
-ynh_systemd_action --service_name="$app" --action="stop" --line_match="Stopped" --log_path="systemd"
+ynh_systemd_action --service_name=$app --action="stop" --line_match="Stopped" --log_path="systemd"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -67,9 +68,9 @@ fi
 ynh_script_progression --message="Making sure dedicated system user exists..."
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username="$app" --home_dir="$final_path"
+ynh_system_user_create --username=$app --home_dir="$final_path"
 
-usermod -a -G ssl-cert "$app"
+usermod -a -G ssl-cert $app
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -87,14 +88,14 @@ fi
 
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
-chown -R "$app":"$app" "$final_path"
+chown -R $app:$app "$final_path"
 
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
 ynh_script_progression --message="Upgrading dependencies..."
 
-ynh_install_app_dependencies "$pkg_dependencies"
+ynh_install_app_dependencies $pkg_dependencies
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -107,14 +108,14 @@ if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
 	# Install rustup with the toolchain needed by Gemserv
 	pushd "$final_path"
-		ynh_exec_as "$app" RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl -sSf -L https://static.rust-lang.org/rustup.sh | sh -s -- -y --default-toolchain nightly'
+		ynh_exec_warn_less ynh_exec_as $app RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y'
 	popd
 
 	export PATH="$PATH:$final_path/.cargo/bin:$final_path/.local/bin:/usr/local/sbin" 
 
 	# Compile Gemserv
 	pushd "$final_path"/build
-		ynh_exec_warn_less ynh_exec_as "$app" env PATH="$PATH" cargo build --release
+		ynh_exec_warn_less ynh_exec_as $app env PATH="$PATH" cargo build --release
 	popd
 
 	# Install Gemserv
@@ -135,12 +136,12 @@ mkdir -p "/etc/$app/config.d/"
 
 chmod 750 "/etc/$app"
 chmod -R o-rwx "/etc/$app"
-chown -R "$app":"$app" "/etc/$app"
+chown -R $app:$app "/etc/$app"
 
 ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
 chmod 400 "/etc/$app/config.d/server.toml.head"
-chown "$app":"$app" "/etc/$app/config.d/server.toml.head"
+chown $app:$app "/etc/$app/config.d/server.toml.head"
 
 #=================================================
 # SETUP SYSTEMD
@@ -165,14 +166,14 @@ ynh_use_logrotate --non-append
 #=================================================
 ynh_script_progression --message="Integrating service in YunoHost..."
 
-yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
+yunohost service add $app --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name="$app" --action="start" --line_match="Started" --log_path="systemd"
+ynh_systemd_action --service_name=$app --action="start" --line_match="Started" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
