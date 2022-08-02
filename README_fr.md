@@ -28,7 +28,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Version incluse :** 0.6.6~ynh3
+**Version incluse :** 0.6.6~ynh4
 ## Avertissements / informations importantes
 
 Please note that Gemserv uses the TCP port 1965, so you can't use it for anything else.
