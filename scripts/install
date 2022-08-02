@@ -83,9 +83,9 @@ chown -R $app:$app "$final_path"
 #=================================================
 # SPECIFIC SETUP
 #=================================================
-# MAKE INSTALL
+# BUILD APP
 #=================================================
-ynh_script_progression --message="Making install..."
+ynh_script_progression --message="Building app..."
 
 # Install rustup with the toolchain needed by Gemserv
 pushd "$final_path"
@@ -120,7 +120,7 @@ chown -R $app:$app "/etc/$app"
 
 ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
-chmod 400 "/etc/$app/config.d/server.toml.head"
+chmod 600 "/etc/$app/config.d/server.toml.head"
 chown $app:$app "/etc/$app/config.d/server.toml.head"
 
 #=================================================
