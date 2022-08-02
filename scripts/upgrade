@@ -100,9 +100,9 @@ ynh_install_app_dependencies $pkg_dependencies
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-# MAKE INSTALL
+# BUILD APP
 #=================================================
-ynh_script_progression --message="Making install..."
+ynh_script_progression --message="Building app..."
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
@@ -140,7 +140,7 @@ chown -R $app:$app "/etc/$app"
 
 ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
-chmod 400 "/etc/$app/config.d/server.toml.head"
+chmod 600 "/etc/$app/config.d/server.toml.head"
 chown $app:$app "/etc/$app/config.d/server.toml.head"
 
 #=================================================
