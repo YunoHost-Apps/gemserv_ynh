@@ -11,3 +11,4 @@ interface = [ "[::]:1965" ]
 # are error, warn, and info. If error is set it will only show error. If warn
 # is set it will show error and warn. Info shows all three.
 log = "info"
+
