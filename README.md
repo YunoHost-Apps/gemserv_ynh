@@ -38,7 +38,7 @@ To add a gemini capsule, create a `/etc/gemserv/config.d/example.toml` file as f
 ``` toml
 [[server]]
 hostname = "yourdomain.org"
-dir = "/path/to/serv"
+dir = "/opt/yunohost/gemserv"
 key = "/etc/yunohost/certs/yourdomain.org/key.pem"
 cert = "/etc/yunohost/certs/yourdomain.org/crt.pem"
 # index is optional but defaults to index.gemini. The server will serve files
