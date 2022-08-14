@@ -31,14 +31,14 @@ A gemini server written in rust.
 **Version incluse :** 0.6.6~ynh4
 ## Avertissements / informations importantes
 
-Please note that Gemserv uses the TCP port 1965, so you can't use it for anything else.
+Gemserv utilise le port TCP 1965, vous ne pourrez donc l'utiliser pour autre chose.
 
-To add a gemini capsule, create a `/etc/gemserv/config.d/example.toml` file as following:
+Pour ajouter une capsule, créer le fichier de configuration `/etc/gemserv/config.d/example.toml` avec le contenu suivant:
 
 ``` toml
 [[server]]
 hostname = "yourdomain.org"
-dir = "/path/to/serv"
+dir = "/opt/yunohost/gemserv"
 key = "/etc/yunohost/certs/yourdomain.org/key.pem"
 cert = "/etc/yunohost/certs/yourdomain.org/crt.pem"
 # index is optional but defaults to index.gemini. The server will serve files
