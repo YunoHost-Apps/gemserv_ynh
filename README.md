@@ -28,7 +28,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Shipped version:** 0.6.6~ynh5 *(:warning: This is the `testing` branch. The [`master` branch](https://github.com/YunoHost-Apps/gemserv_ynh/tree/master) used in the catalog is currently on version 0.6.6\~ynh4.)*
+**Shipped version:** 0.6.6~ynh5
 
 ## Disclaimers / important information
 

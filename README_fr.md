@@ -28,7 +28,7 @@ Un serveur Gemini écrit en rust.
 - Rechargement de la configuration sur SIGHUP
 
 
-**Version incluse :** 0.6.6~ynh5 *(:warning: Il s'agit de la branche `testing`. La [branche `master`](https://github.com/YunoHost-Apps/gemserv_ynh/tree/master) utilisée dans le catalogue est actuellement en 0.6.6\~ynh4.)*
+**Version incluse :** 0.6.6~ynh5
 
 ## Avertissements / informations importantes
 
