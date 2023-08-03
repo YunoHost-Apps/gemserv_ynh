@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Gemserv for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Working status](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Working status](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+
 [![Install Gemserv with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -28,8 +29,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Shipped version:** 0.6.6~ynh5 *(:warning: This is the `testing` branch. The [`master` branch](https://github.com/YunoHost-Apps/gemserv_ynh/tree/master) used in the catalog is currently on version 0.6.6\~ynh4.)*
-
+**Shipped version:** 0.6.6~ynh6
 ## Disclaimers / important information
 
 Please note that Gemserv uses the TCP port 1965, so you can't use it for anything else.

@@ -5,15 +5,16 @@ It shall NOT be edited by hand.
 
 # Gemserv pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+
 [![Installer Gemserv avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer Gemserv rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer Gemserv rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 Un serveur Gemini écrit en rust.
 
@@ -28,8 +29,7 @@ Un serveur Gemini écrit en rust.
 - Rechargement de la configuration sur SIGHUP
 
 
-**Version incluse :** 0.6.6~ynh5 *(:warning: Il s'agit de la branche `testing`. La [branche `master`](https://github.com/YunoHost-Apps/gemserv_ynh/tree/master) utilisée dans le catalogue est actuellement en 0.6.6\~ynh4.)*
-
+**Version incluse :** 0.6.6~ynh6
 ## Avertissements / informations importantes
 
 Gemserv utilise le port TCP 1965, vous ne pourrez donc l'utiliser pour autre chose.
@@ -70,7 +70,7 @@ redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 
 ## Documentations et ressources
 
-* Dépôt de code officiel de l'app : <https://git.sr.ht/~int80h/gemserv>
+* Dépôt de code officiel de l’app : <https://git.sr.ht/~int80h/gemserv>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_gemserv>
 * Signaler un bug : <https://github.com/YunoHost-Apps/gemserv_ynh/issues>
 
@@ -86,4 +86,4 @@ ou
 sudo yunohost app upgrade gemserv -u https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
