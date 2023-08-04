@@ -5,7 +5,7 @@
     "description": {
         "en": "A gemini server written in rust."
     },
-    "version": "0.6.6~ynh5",
+    "version": "0.6.6~ynh6",
     "url": "https://git.sr.ht/~int80h/gemserv/",
     "upstream": {
         "license": "MIT",
