@@ -71,7 +71,7 @@ redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 ## Documentation and resources
 
 * Upstream app code repository: <https://git.sr.ht/~int80h/gemserv>
-* YunoHost documentation for this app: <https://yunohost.org/app_gemserv>
+* YunoHost Store: <https://apps.yunohost.org/app/gemserv>
 * Report a bug: <https://github.com/YunoHost-Apps/gemserv_ynh/issues>
 
 ## Developer info
