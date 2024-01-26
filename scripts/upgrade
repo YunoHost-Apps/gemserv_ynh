@@ -10,36 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-ynh_script_progression --message="Loading installation settings..." --weight=1
-
-app=$YNH_APP_INSTANCE_NAME
-
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-
-#=================================================
-# CHECK VERSION
-#=================================================
-ynh_script_progression --message="Checking version..." --weight=1
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
-
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	# Restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -54,47 +24,47 @@ ynh_systemd_action --service_name=$app --action="stop" --line_match="Stopped" --
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
 # Change to head file
-if [ -f "/etc/$app/config.d/server.toml" ]
-then
-	ynh_delete_file_checksum --file="/etc/$app/config.d/server.toml"
-	mv "/etc/$app/config.d/server.toml" "/etc/$app/config.d/server.toml.head"
-	ynh_store_file_checksum --file="/etc/$app/config.d/server.toml.head"
+if [ -f "/etc/$app/config.d/server.toml" ]; then
+    ynh_delete_file_checksum --file="/etc/$app/config.d/server.toml"
+    mv "/etc/$app/config.d/server.toml" "/etc/$app/config.d/server.toml.head"
+    ynh_store_file_checksum --file="/etc/$app/config.d/server.toml.head"
 fi
 
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
+ynh_script_progression --message="Configuring system user..." --weight=1
 
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir="$final_path"
+usermod -a -G ssl-cert "$app"
 
-usermod -a -G ssl-cert $app
+#=================================================
+# INSTALL RUST/CARGO
+#=================================================
+ynh_script_progression --message="Installing Rust and Cargo..." --weight=1
+
+# Install rustup with the toolchain needed by Gemserv
+pushd "$install_dir"
+    ynh_exec_warn_less ynh_exec_as "$app" \
+        RUSTUP_HOME="$install_dir/.rustup" \
+        CARGO_HOME="$install_dir/.cargo" \
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
+    | ynh_exec_as "$app" sh -s -- -q -y
+popd
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression --message="Upgrading source files..." --weight=1
 
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Upgrading source files..." --weight=1
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir/build"
 
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path/build"
-	ynh_secure_remove --file="$final_path/live"
-	mkdir -p "$final_path/live"
-fi
+ynh_secure_remove --file="$install_dir/live"
+mkdir -p "$install_dir/live"
 
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app:$app "$final_path"
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Upgrading dependencies..." --weight=1
-
-ynh_install_app_dependencies $pkg_dependencies
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R "$app:$app" "$install_dir"
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -103,28 +73,18 @@ ynh_install_app_dependencies $pkg_dependencies
 #=================================================
 ynh_script_progression --message="Building app..." --weight=1
 
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	# Install rustup with the toolchain needed by Gemserv
-	pushd "$final_path"
-		ynh_exec_warn_less ynh_exec_as $app RUSTUP_HOME="$final_path"/.rustup CARGO_HOME="$final_path"/.cargo bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y'
-	popd
+# Compile Gemserv
+pushd "$install_dir/build"
+    ynh_exec_warn_less ynh_exec_as "$app" bash -c "source $install_dir/.cargo/env; cargo build --release"
+popd
 
-	export PATH="$PATH:$final_path/.cargo/bin:$final_path/.local/bin:/usr/local/sbin" 
+# Install Gemserv
+cp -af "$install_dir/build/target/release/gemserv" "$install_dir/live/gemserv"
 
-	# Compile Gemserv
-	pushd "$final_path"/build
-		ynh_exec_warn_less ynh_exec_as $app env PATH="$PATH" cargo build --release
-	popd
-
-	# Install Gemserv
-	cp -af "$final_path/build/target/release/gemserv" "$final_path/live/gemserv"
-
-	# Remove build files and rustup
-	ynh_secure_remove --file="$final_path/build"
-	ynh_secure_remove --file="$final_path/.cargo"
-	ynh_secure_remove --file="$final_path/.rustup"
-fi
+# Remove build files and rustup
+ynh_secure_remove --file="$install_dir/build"
+ynh_secure_remove --file="$install_dir/.cargo"
+ynh_secure_remove --file="$install_dir/.rustup"
 
 #=================================================
 # UPDATE A CONFIG FILE
@@ -135,44 +95,31 @@ mkdir -p "/etc/$app/config.d/"
 
 chmod 750 "/etc/$app"
 chmod -R o-rwx "/etc/$app"
-chown -R $app:$app "/etc/$app"
+chown -R "$app:$app" "/etc/$app"
 
 ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
 chmod 600 "/etc/$app/config.d/server.toml.head"
-chown $app:$app "/etc/$app/config.d/server.toml.head"
+chown "$app:$app" "/etc/$app/config.d/server.toml.head"
 
 #=================================================
-# SETUP SYSTEMD
+# REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..." --weight=1
+yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
-
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..." --weight=1
-
-yunohost service add $app --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --weight=1
 
-ynh_systemd_action --service_name=$app --action="start" --line_match="Started" --log_path="systemd"
+ynh_systemd_action --service_name="$app" --action="start" --line_match="Started" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT

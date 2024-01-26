@@ -1,0 +1,14 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/tests.v1.schema.json
+
+test_format = 1.0
+
+[default]
+
+    # -------------------------------
+    # Default args to use for install
+    # -------------------------------
+
+    # test_upgrade_from.3fcde5a7829938763b393ac1e878929bdc35297f.name = "0.4.4~ynh1"
+    # test_upgrade_from.d1e78f8cb47fc61dc3ede3e9cbb8445e364f0ab0.name = "0.4.5~ynh1"
+    test_upgrade_from.884e8c80936563ee20896a1e2ea4ace85fc4c3a7.name = "0.6.3~ynh1"
+    test_upgrade_from.f9e059a5ea4851aa51349319e8ed77f1e0676e46.name = "0.6.6~ynh2"
