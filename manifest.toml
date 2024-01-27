@@ -1,0 +1,49 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
+packaging_format = 2
+
+id = "gemserv"
+name = "Gemserv"
+description.en = "A gemini server written in rust."
+
+version = "0.6.6~ynh6"
+
+maintainers = ["yalh76"]
+
+[upstream]
+license = "MIT"
+code = "https://git.sr.ht/~int80h/gemserv"
+website = "https://git.sr.ht/~int80h/gemserv/"
+
+[integration]
+yunohost = ">= 4.3.0"
+architectures = "all"
+multi_instance = false
+ldap = "not_relevant"
+sso = "not_relevant"
+disk = "100M"
+ram.build = "500M"
+ram.runtime = "50M"
+
+[install]
+
+[resources]
+    [resources.sources.main]
+    url = "https://git.sr.ht/~int80h/gemserv/archive/v0.6.6.tar.gz"
+    sha256 = "a4423b91bff3e05708c296fe6135d00b7d09acc33b15c7d078a5c8753a84aa5a"
+
+    # autoupdate.strategy = "latest_github_tag"
+
+    [resources.system_user]
+
+    [resources.ports]
+    main.default = 1965
+    main.exposed = "TCP"
+    main.fixed = true
+
+    [resources.install_dir]
+
+    [resources.permissions]
+
+    [resources.apt]
+    packages = ["pkg-config", "libssl-dev"]
