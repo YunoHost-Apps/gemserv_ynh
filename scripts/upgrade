@@ -111,6 +111,9 @@ ynh_script_progression --message="Upgrading system configurations related to $ap
 ynh_add_systemd_config
 yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
+mkdir -p "/var/log/$app"
+chmod 640 "/var/log/$app"
+
 # Use logrotate to manage app-specific logfile(s)
 ynh_use_logrotate --non-append
 
