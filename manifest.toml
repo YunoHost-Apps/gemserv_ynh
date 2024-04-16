@@ -6,7 +6,7 @@ id = "gemserv"
 name = "Gemserv"
 description.en = "A gemini server written in rust."
 
-version = "0.6.6~ynh6"
+version = "0.6.6~ynh7"
 
 maintainers = ["yalh76"]
 
