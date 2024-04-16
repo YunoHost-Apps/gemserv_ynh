@@ -9,7 +9,7 @@ It shall NOT be edited by hand.
 
 [![Install Gemserv with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
-*[Read this README is other languages.](./ALL_README.md)*
+*[Read this README in other languages.](./ALL_README.md)*
 
 > *This package allows you to install Gemserv quickly and simply on a YunoHost server.*  
 > *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
@@ -29,7 +29,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Shipped version:** 0.6.6~ynh6
+**Shipped version:** 0.6.6~ynh7
 ## Documentation and resources
 
 - Official app website: <https://git.sr.ht/~int80h/gemserv/>
