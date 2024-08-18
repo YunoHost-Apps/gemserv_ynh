@@ -4,9 +4,10 @@ packaging_format = 2
 
 id = "gemserv"
 name = "Gemserv"
-description.en = "A gemini server written in rust."
+description.en = "Gemini server"
+description.fr = "Serveur Gemini"
 
-version = "0.6.6~ynh7"
+version = "0.6.6~ynh8"
 
 maintainers = []
 
@@ -31,8 +32,6 @@ ram.runtime = "50M"
     [resources.sources.main]
     url = "https://git.sr.ht/~int80h/gemserv/archive/v0.6.6.tar.gz"
     sha256 = "a4423b91bff3e05708c296fe6135d00b7d09acc33b15c7d078a5c8753a84aa5a"
-
-    # autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
 
