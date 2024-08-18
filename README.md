@@ -5,7 +5,7 @@ It shall NOT be edited by hand.
 
 # Gemserv for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Working status](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Integration level](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Working status](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
 
 [![Install Gemserv with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
