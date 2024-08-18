@@ -5,7 +5,7 @@
 
 # YunoHost 上的 Gemserv
 
-[![集成程度](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![工作状态](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![集成程度](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
 
 [![使用 YunoHost 安装 Gemserv](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 

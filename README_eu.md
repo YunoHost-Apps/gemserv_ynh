@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # Gemserv YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/gemserv.svg)](https://dash.yunohost.org/appci/app/gemserv) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
 
 [![Instalatu Gemserv YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 

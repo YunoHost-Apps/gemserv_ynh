@@ -25,18 +25,8 @@ ynh_remove_systemd_config
 # Remove the app-specific logrotate config
 ynh_remove_logrotate
 
-#=================================================
-# SPECIFIC REMOVE
-#=================================================
-# REMOVE VARIOUS FILES
-#=================================================
-ynh_script_progression --message="Removing various files..." --weight=1
-
 # Remove a directory securely
 ynh_secure_remove --file="/etc/$app"
-
-# Remove the log files
-ynh_secure_remove --file="/var/log/$app"
 
 #=================================================
 # END OF SCRIPT
