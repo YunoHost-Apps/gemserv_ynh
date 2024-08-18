@@ -8,7 +8,7 @@ description.en = "A gemini server written in rust."
 
 version = "0.6.6~ynh7"
 
-maintainers = ["yalh76"]
+maintainers = []
 
 [upstream]
 license = "MIT"
@@ -16,7 +16,7 @@ code = "https://git.sr.ht/~int80h/gemserv"
 website = "https://git.sr.ht/~int80h/gemserv/"
 
 [integration]
-yunohost = ">= 4.3.0"
+yunohost = ">= 11.2.27"
 architectures = "all"
 multi_instance = false
 ldap = "not_relevant"
