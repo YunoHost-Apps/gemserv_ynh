@@ -17,7 +17,8 @@ code = "https://git.sr.ht/~int80h/gemserv"
 website = "https://git.sr.ht/~int80h/gemserv/"
 
 [integration]
-yunohost = ">= 11.2.27"
+yunohost = ">= 11.2.18"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
 ldap = "not_relevant"
