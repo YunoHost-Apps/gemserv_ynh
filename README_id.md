@@ -29,7 +29,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Versi terkirim:** 0.6.6~ynh8
+**Versi terkirim:** 0.6.7~ynh1
 ## Dokumentasi dan sumber daya
 
 - Website aplikasi resmi: <https://git.sr.ht/~int80h/gemserv/>
