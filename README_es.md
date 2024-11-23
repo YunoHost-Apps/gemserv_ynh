@@ -29,7 +29,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Versión actual:** 0.6.6~ynh8
+**Versión actual:** 0.6.7~ynh1
 ## Documentaciones y recursos
 
 - Sitio web oficial: <https://git.sr.ht/~int80h/gemserv/>
@@ -39,7 +39,7 @@ A gemini server written in rust.
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
