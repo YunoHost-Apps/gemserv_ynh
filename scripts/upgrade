@@ -1,95 +1,84 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..." --weight=1
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name=$app --action="stop" --line_match="Stopped" --log_path="systemd"
+ynh_systemctl --service=$app --action="stop" --wait_until="Stopped" --log_path="systemd"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+ynh_script_progression "Ensuring downward compatibility..."
 
 # Change to head file
 if [ -f "/etc/$app/config.d/server.toml" ]; then
-    ynh_delete_file_checksum --file="/etc/$app/config.d/server.toml"
+    ynh_delete_file_checksum "/etc/$app/config.d/server.toml"
     mv "/etc/$app/config.d/server.toml" "/etc/$app/config.d/server.toml.head"
-    ynh_store_file_checksum --file="/etc/$app/config.d/server.toml.head"
+    ynh_store_file_checksum "/etc/$app/config.d/server.toml.head"
 fi
 
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Configuring system user..." --weight=1
+ynh_script_progression "Configuring system user..."
 
 usermod -a -G ssl-cert "$app"
 
 #=================================================
 # INSTALL RUST/CARGO
 #=================================================
-ynh_script_progression --message="Installing Rust and Cargo..." --weight=1
+ynh_script_progression "Installing Rust and Cargo..."
 
 # Install rustup with the toolchain needed by Gemserv
 pushd "$install_dir"
-    ynh_exec_warn_less ynh_exec_as "$app" \
+    ynh_hide_warnings ynh_exec_as_app \
         RUSTUP_HOME="$install_dir/.rustup" \
         CARGO_HOME="$install_dir/.cargo" \
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-    | ynh_exec_as "$app" sh -s -- -q -y
+    | ynh_exec_as_app sh -s -- -q -y
 popd
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..." --weight=1
+ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir/build"
 
-ynh_secure_remove --file="$install_dir/live"
+ynh_safe_rm "$install_dir/live"
 mkdir -p "$install_dir/live"
 
-chmod 750 "$install_dir"
-chmod -R o-rwx "$install_dir"
-chown -R "$app:$app" "$install_dir"
-
-#=================================================
-# SPECIFIC UPGRADE
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "$install_dir"
 #=================================================
 # BUILD APP
 #=================================================
-ynh_script_progression --message="Building app..." --weight=1
+ynh_script_progression "Building app..."
 
 # Compile Gemserv
 pushd "$install_dir/build"
-    ynh_exec_warn_less ynh_exec_as "$app" bash -c "source $install_dir/.cargo/env; cargo build --release"
+    ynh_hide_warnings ynh_exec_as_app bash -c "source $install_dir/.cargo/env; cargo build --release"
 popd
 
 # Install Gemserv
 cp -af "$install_dir/build/target/release/gemserv" "$install_dir/live/gemserv"
 
 # Remove build files and rustup
-ynh_secure_remove --file="$install_dir/build"
-ynh_secure_remove --file="$install_dir/.cargo"
-ynh_secure_remove --file="$install_dir/.rustup"
+ynh_safe_rm "$install_dir/build"
+ynh_safe_rm "$install_dir/.cargo"
+ynh_safe_rm "$install_dir/.rustup"
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..." --weight=1
+ynh_script_progression "Updating configuration..."
 
 mkdir -p "/etc/$app/config.d/"
 
@@ -97,35 +86,35 @@ chmod 750 "/etc/$app"
 chmod -R o-rwx "/etc/$app"
 chown -R "$app:$app" "/etc/$app"
 
-ynh_add_config --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
+ynh_config_add --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
-chmod 600 "/etc/$app/config.d/server.toml.head"
-chown "$app:$app" "/etc/$app/config.d/server.toml.head"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 600 "/etc/$app/config.d/server.toml.head"
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "/etc/$app/config.d/server.toml.head"
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
 # Create a dedicated systemd config
-ynh_add_systemd_config
+ynh_config_add_systemd
 yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
 mkdir -p "/var/log/$app"
-chmod 640 "/var/log/$app"
+#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 640 "/var/log/$app"
 
 # Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate --non-append
+ynh_config_add_logrotate
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name="$app" --action="start" --line_match="Started" --log_path="systemd"
+ynh_systemctl --service="$app" --action="start" --wait_until="Started" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
