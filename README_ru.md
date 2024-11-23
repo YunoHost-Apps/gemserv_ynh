@@ -5,7 +5,9 @@
 
 # Gemserv для YunoHost
 
-[![Уровень интеграции](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Уровень интеграции](https://apps.yunohost.org/badge/integration/gemserv)](https://ci-apps.yunohost.org/ci/apps/gemserv/)
+![Состояние работы](https://apps.yunohost.org/badge/state/gemserv)
+![Состояние сопровождения](https://apps.yunohost.org/badge/maintained/gemserv)
 
 [![Установите Gemserv с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 

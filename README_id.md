@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Gemserv untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/gemserv)](https://ci-apps.yunohost.org/ci/apps/gemserv/)
+![Status kerja](https://apps.yunohost.org/badge/state/gemserv)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/gemserv)
 
 [![Pasang Gemserv dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
