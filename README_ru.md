@@ -5,7 +5,9 @@
 
 # Gemserv для YunoHost
 
-[![Уровень интеграции](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Состояние работы](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Состояние сопровождения](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Уровень интеграции](https://apps.yunohost.org/badge/integration/gemserv)](https://ci-apps.yunohost.org/ci/apps/gemserv/)
+![Состояние работы](https://apps.yunohost.org/badge/state/gemserv)
+![Состояние сопровождения](https://apps.yunohost.org/badge/maintained/gemserv)
 
 [![Установите Gemserv с YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
@@ -29,7 +31,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Поставляемая версия:** 0.6.6~ynh8
+**Поставляемая версия:** 0.6.7~ynh1
 ## Документация и ресурсы
 
 - Официальный веб-сайт приложения: <https://git.sr.ht/~int80h/gemserv/>

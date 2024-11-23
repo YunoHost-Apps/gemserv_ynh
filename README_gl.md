@@ -5,7 +5,9 @@ NON debe editarse manualmente.
 
 # Gemserv para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/gemserv)](https://ci-apps.yunohost.org/ci/apps/gemserv/)
+![Estado de funcionamento](https://apps.yunohost.org/badge/state/gemserv)
+![Estado de mantemento](https://apps.yunohost.org/badge/maintained/gemserv)
 
 [![Instalar Gemserv con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
@@ -29,7 +31,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Versión proporcionada:** 0.6.6~ynh8
+**Versión proporcionada:** 0.6.7~ynh1
 ## Documentación e recursos
 
 - Web oficial da app: <https://git.sr.ht/~int80h/gemserv/>
