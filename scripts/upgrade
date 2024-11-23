@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -8,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemctl --service=$app --action="stop" --wait_until="Stopped" --log_path="systemd"
+ynh_systemctl --service="$app" --action="stop" --wait_until="Stopped" --log_path="systemd"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -21,6 +25,19 @@ if [ -f "/etc/$app/config.d/server.toml" ]; then
     mv "/etc/$app/config.d/server.toml" "/etc/$app/config.d/server.toml.head"
     ynh_store_file_checksum "/etc/$app/config.d/server.toml.head"
 fi
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Upgrading source files..."
+
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir/build"
+
+ynh_safe_rm "$install_dir/live"
+mkdir -p "$install_dir/live"
+
+chown -R "$app:$app" "$install_dir"
 
 #=================================================
 # CREATE DEDICATED USER
@@ -44,20 +61,6 @@ pushd "$install_dir"
 popd
 
 #=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-ynh_script_progression "Upgrading source files..."
-
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir/build"
-
-ynh_safe_rm "$install_dir/live"
-mkdir -p "$install_dir/live"
-
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "$install_dir"
-#=================================================
 # BUILD APP
 #=================================================
 ynh_script_progression "Building app..."
@@ -78,7 +81,7 @@ ynh_safe_rm "$install_dir/.rustup"
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression "Updating configuration..."
+ynh_script_progression "Updating $app's configuration files..."
 
 mkdir -p "/etc/$app/config.d/"
 
@@ -88,22 +91,15 @@ chown -R "$app:$app" "/etc/$app"
 
 ynh_config_add --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
 
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 600 "/etc/$app/config.d/server.toml.head"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "/etc/$app/config.d/server.toml.head"
-
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
 ynh_script_progression "Upgrading system configurations related to $app..."
 
-# Create a dedicated systemd config
 ynh_config_add_systemd
+
 yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
 
-mkdir -p "/var/log/$app"
-#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 640 "/var/log/$app"
-
-# Use logrotate to manage app-specific logfile(s)
 ynh_config_add_logrotate
 
 #=================================================

@@ -1,10 +1,56 @@
 #!/bin/bash
 
+#=================================================
+# IMPORT GENERIC HELPERS
+#=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# CREATE DEDICATED USER
+# INITIALIZE AND STORE SETTINGS
+#=================================================
+
+#=================================================
+# DOWNLOAD, CHECK AND UNPACK SOURCE
+#=================================================
+ynh_script_progression "Setting up source files..."
+
+# Download, check integrity, uncompress and patch the source from manifest.toml
+ynh_setup_source --dest_dir="$install_dir/build"
+
+mkdir -p "$install_dir/live"
+
+chown -R "$app:$app" "$install_dir"
+
+#=================================================
+# APP INITIAL CONFIGURATION
+#=================================================
+ynh_script_progression "Adding $app's configuration files..."
+
+mkdir -p "/etc/$app/config.d/"
+
+chmod 750 "/etc/$app"
+chmod -R o-rwx "/etc/$app"
+chown -R "$app:$app" "/etc/$app"
+
+ynh_config_add --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
+
+#=================================================
+# SYSTEM CONFIGURATION
+#=================================================
+ynh_script_progression "Adding system configurations related to $app..."
+
+# Create a dedicated systemd config
+ynh_config_add_systemd
+
+yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
+
+# Use logrotate to manage application logfile(s)
+ynh_config_add_logrotate
+
+#=================================================
+# CONFIGURING SYSTEM USER
 #=================================================
 ynh_script_progression "Configuring system user..."
 
@@ -21,24 +67,9 @@ pushd "$install_dir"
         RUSTUP_HOME="$install_dir/.rustup" \
         CARGO_HOME="$install_dir/.cargo" \
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-    | ynh_exec_as_app sh -s -- -q -y
+    | ynh_hide_warnings ynh_exec_as_app sh -s -- -q -y
 popd
 
-#=================================================
-# DOWNLOAD, CHECK AND UNPACK SOURCE
-#=================================================
-ynh_script_progression "Setting up source files..."
-
-# Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir/build"
-
-mkdir -p "$install_dir/live"
-
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:$app" "$install_dir"
-#=================================================
-# SPECIFIC SETUP
 #=================================================
 # BUILD APP
 #=================================================
@@ -58,41 +89,11 @@ ynh_safe_rm "$install_dir/.cargo"
 ynh_safe_rm "$install_dir/.rustup"
 
 #=================================================
-# ADD A CONFIGURATION
-#=================================================
-ynh_script_progression "Adding $app's configuration..."
-
-mkdir -p "/etc/$app/config.d/"
-
-chmod 750 "/etc/$app"
-chmod -R o-rwx "/etc/$app"
-chown -R "$app:$app" "/etc/$app"
-
-ynh_config_add --template="server.toml" --destination="/etc/$app/config.d/server.toml.head"
-
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 600 "/etc/$app/config.d/server.toml.head"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:$app" "/etc/$app/config.d/server.toml.head"
-
-#=================================================
-# SYSTEM CONFIGURATION
-#=================================================
-ynh_script_progression "Adding system configurations related to $app..."
-
-# Create a dedicated systemd config
-ynh_config_add_systemd
-yunohost service add "$app" --description="$app daemon" --log="/var/log/$app/$app.log" --needs_exposed_ports="1965"
-
-mkdir -p "/var/log/$app"
-#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 640 "/var/log/$app"
-
-# Use logrotate to manage application logfile(s)
-ynh_config_add_logrotate
-
-#=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
+# Start a systemd service
 ynh_systemctl --service="$app" --action="start" --wait_until="Started" --log_path="systemd"
 
 #=================================================
