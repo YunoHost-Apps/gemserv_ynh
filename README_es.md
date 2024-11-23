@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # Gemserv para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/gemserv.svg)](https://ci-apps.yunohost.org/ci/apps/gemserv/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/gemserv.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/gemserv.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/gemserv)](https://ci-apps.yunohost.org/ci/apps/gemserv/)
+![Estado funcional](https://apps.yunohost.org/badge/state/gemserv)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/gemserv)
 
 [![Instalar Gemserv con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=gemserv)
 
@@ -29,7 +31,7 @@ A gemini server written in rust.
 - Reload config on SIGHUP
 
 
-**Versión actual:** 0.6.6~ynh8
+**Versión actual:** 0.6.7~ynh1
 ## Documentaciones y recursos
 
 - Sitio web oficial: <https://git.sr.ht/~int80h/gemserv/>
@@ -39,7 +41,7 @@ A gemini server written in rust.
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/gemserv_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 

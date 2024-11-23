@@ -7,7 +7,7 @@ name = "Gemserv"
 description.en = "Gemini server"
 description.fr = "Serveur Gemini"
 
-version = "0.6.6~ynh8"
+version = "0.6.7~ynh1"
 
 maintainers = []
 
@@ -31,8 +31,8 @@ ram.runtime = "50M"
 
 [resources]
     [resources.sources.main]
-    url = "https://git.sr.ht/~int80h/gemserv/archive/v0.6.6.tar.gz"
-    sha256 = "a4423b91bff3e05708c296fe6135d00b7d09acc33b15c7d078a5c8753a84aa5a"
+    url = "https://github.com/calacuda/gemserv/archive/refs/tags/v0.6.7.zip"
+    sha256 = "ee88ec11addad17c4acfb0dbfec12c0489c15fa6099151a3eedca45a0c6eb274"
 
     [resources.system_user]
 
