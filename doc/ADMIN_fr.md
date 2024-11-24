@@ -2,6 +2,18 @@ Gemserv utilise le port TCP 1965, vous ne pourrez donc l'utiliser pour autre cho
 
 Pour ajouter une capsule, créer le fichier de configuration `/etc/gemserv/config.d/example.toml` avec le contenu suivant:
 
+Version minimale :
+
+``` toml
+[[server]]
+hostname = "yourdomain.org"
+dir = "/opt/yunohost/gemserv"
+key = "/etc/yunohost/certs/yourdomain.org/key.pem"
+cert = "/etc/yunohost/certs/yourdomain.org/crt.pem"
+```
+
+Version compléte :
+
 ``` toml
 [[server]]
 hostname = "yourdomain.org"
@@ -33,3 +45,5 @@ proxy_all = "localhost:1967"
 # redirect is optional
 redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 ```
+
+Puis créer le dossier `/opt/yunohost/gemserv` et mettre les fichiers dans celui-ci.

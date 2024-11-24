@@ -2,6 +2,16 @@ Please note that Gemserv uses the TCP port 1965, so you can't use it for anythin
 
 To add a gemini capsule, create a `/etc/gemserv/config.d/example.toml` file as following:
 
+Minimal version : 
+
+``` toml
+[[server]]
+hostname = "yourdomain.org"
+dir = "/opt/yunohost/gemserv"
+key = "/etc/yunohost/certs/yourdomain.org/key.pem"
+cert = "/etc/yunohost/certs/yourdomain.org/crt.pem"
+```
+Extended version :
 ``` toml
 [[server]]
 hostname = "yourdomain.org"
@@ -33,3 +43,5 @@ proxy_all = "localhost:1967"
 # redirect is optional
 redirect = { "/redirect" = "/", "/newdomain" = "gemini://example.net" }
 ```
+
+And then create the folder `/opt/yunohost/gemserv` and put your files in that folder.
