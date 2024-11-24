@@ -57,7 +57,7 @@ pushd "$install_dir"
         RUSTUP_HOME="$install_dir/.rustup" \
         CARGO_HOME="$install_dir/.cargo" \
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \
-    | ynh_exec_as_app sh -s -- -q -y
+    | ynh_hide_warnings ynh_exec_as_app sh -s -- -q -y
 popd
 
 #=================================================
