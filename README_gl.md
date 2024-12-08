@@ -34,8 +34,8 @@ A gemini server written in rust.
 **Versión proporcionada:** 0.6.7~ynh1
 ## Documentación e recursos
 
-- Web oficial da app: <https://git.sr.ht/~int80h/gemserv/>
-- Repositorio de orixe do código: <https://git.sr.ht/~int80h/gemserv>
+- Web oficial da app: <https://github.com/calacuda/gemserv/>
+- Repositorio de orixe do código: <https://github.com/calacuda/gemserv/>
 - Tenda YunoHost: <https://apps.yunohost.org/app/gemserv>
 - Informar dun problema: <https://github.com/YunoHost-Apps/gemserv_ynh/issues>
 
