@@ -13,8 +13,8 @@ maintainers = []
 
 [upstream]
 license = "MIT"
-website = "https://git.sr.ht/~int80h/gemserv/"
-code = "https://git.sr.ht/~int80h/gemserv"
+website = "https://github.com/calacuda/gemserv/"
+code = "https://github.com/calacuda/gemserv/"
 
 [integration]
 yunohost = ">= 11.2.30"
