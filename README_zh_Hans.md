@@ -34,7 +34,6 @@ A gemini server written in rust.
 **分发版本：** 0.6.7~ynh1
 ## 文档与资源
 
-- 官方应用网站： <https://github.com/calacuda/gemserv/>
 - 上游应用代码库： <https://github.com/calacuda/gemserv/>
 - YunoHost 商店： <https://apps.yunohost.org/app/gemserv>
 - 报告 bug： <https://github.com/YunoHost-Apps/gemserv_ynh/issues>

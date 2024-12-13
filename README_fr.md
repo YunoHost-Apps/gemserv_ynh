@@ -34,7 +34,6 @@ Un serveur Gemini écrit en rust.
 **Version incluse :** 0.6.7~ynh1
 ## Documentations et ressources
 
-- Site officiel de l’app : <https://github.com/calacuda/gemserv/>
 - Dépôt de code officiel de l’app : <https://github.com/calacuda/gemserv/>
 - YunoHost Store : <https://apps.yunohost.org/app/gemserv>
 - Signaler un bug : <https://github.com/YunoHost-Apps/gemserv_ynh/issues>
