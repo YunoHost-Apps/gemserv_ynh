@@ -13,7 +13,6 @@ maintainers = []
 
 [upstream]
 license = "MIT"
-website = "https://github.com/calacuda/gemserv/"
 code = "https://github.com/calacuda/gemserv/"
 
 [integration]

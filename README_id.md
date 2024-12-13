@@ -34,7 +34,6 @@ A gemini server written in rust.
 **Versi terkirim:** 0.6.7~ynh1
 ## Dokumentasi dan sumber daya
 
-- Website aplikasi resmi: <https://github.com/calacuda/gemserv/>
 - Depot kode aplikasi hulu: <https://github.com/calacuda/gemserv/>
 - Gudang YunoHost: <https://apps.yunohost.org/app/gemserv>
 - Laporkan bug: <https://github.com/YunoHost-Apps/gemserv_ynh/issues>
