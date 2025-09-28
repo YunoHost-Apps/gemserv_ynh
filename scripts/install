@@ -4,12 +4,7 @@
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source _common.sh
 source /usr/share/yunohost/helpers
-
-#=================================================
-# INITIALIZE AND STORE SETTINGS
-#=================================================
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
