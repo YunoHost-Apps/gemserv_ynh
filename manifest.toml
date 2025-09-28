@@ -16,13 +16,12 @@ license = "MIT"
 code = "https://github.com/calacuda/gemserv/"
 
 [integration]
-yunohost = ">= 11.2.30"
+yunohost = ">= 12.1.17"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = false
 
 ldap = "not_relevant"
-
 sso = "not_relevant"
 
 disk = "100M"
@@ -40,26 +39,17 @@ ram.runtime = "50M"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
-    # This will provision/deprovision a unix system user
 
     [resources.install_dir]
-    # This will create/remove the install dir as /var/www/$app
-    # and store the corresponding setting $install_dir
 
     [resources.permissions]
-    # This will configure SSOwat permission for $domain/$path/
-    # The initial allowed group of user is configured via the init_main_permission question (public=visitors, private=all_users)
-
 
     [resources.ports]
-    # This will pick a random port for reverse-proxying and store it as the $port setting
     main.default = 1965
     main.exposed = "TCP"
     main.fixed = true
 
     [resources.apt]
-    # This will automatically install/uninstall the following apt packages
-    # and implicitly define the $phpversion setting as 8.0 (if phpX.Y-foobar dependencies are listed)
     packages = [
         "pkg-config",
         "curl",
